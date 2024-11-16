@@ -1,0 +1,35 @@
+POST http://localhost:8000/greetings/Roman
+Content-Type: application/x-www-form-urlencoded
+Accept-Language: ru
+
+lastName = Naumenko
+
+###
+
+GET http://localhost:8000/last-visitor
+Accept-Language: ru
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
