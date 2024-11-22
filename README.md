@@ -42,7 +42,3 @@ make cli
 # Вход в контейнер node
 make cli-node
 ```
-
-
-Midleware: 
-https://www.youtube.com/watch?v=VKMQwMyH3mw&ab_channel=%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%D0%95%D0%BB%D0%B8%D1%81%D0%B5%D0%B5%D0%B2
