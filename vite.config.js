@@ -8,4 +8,14 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost'
+        },
+        // watch: {
+        //     // https://vitejs.dev/config/server-options.html#server-watch
+        //     usePolling: true
+        // }
+    },
 });

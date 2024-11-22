@@ -20,7 +20,9 @@ init: setup-dotenv down rebuild setfacl up
 	${COMPOSE} exec laravel ./artisan key:generate
 	${COMPOSE} exec laravel ./artisan db:wipe
 	${COMPOSE} exec laravel ./artisan migrate --seed
+	${COMPOSE} exec node npm install --verbose  --ignore-optional
 	${COMPOSE} restart laravel
+	${COMPOSE} restart node
 	echo "---------------------------------"
 	echo "Initialization complete!"
 
@@ -33,6 +35,8 @@ setup-dotenv:
 cli:
 	${COMPOSE} exec -u sail laravel  bash
 
+cli-node:
+	${COMPOSE} exec node sh
 
 # Запуск миграций
 migrate:

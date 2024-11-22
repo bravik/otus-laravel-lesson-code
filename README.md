@@ -38,6 +38,9 @@ make down
 ```shell
 # Вход в контейнер laravel
 make cli
+
+# Вход в контейнер node
+make cli-node
 ```
 
 

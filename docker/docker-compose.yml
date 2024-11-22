@@ -27,7 +27,6 @@ services:
         image: 'mysql/mysql-server:8.0'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
@@ -48,6 +47,19 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+
+    node:
+        image: node:22-alpine
+        restart: on-failure
+        volumes:
+            - ..:/app
+        ports:
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        working_dir: /app
+        user: "1000:1000"
+        # tail -F /dev/null нужна, чтобы при отсутствии зависимостей
+        #          или другой ошибке в первой команде контейнер не останавливался
+        command: sh -c "npm run dev || tail -F /dev/null"
 
     # Фейковый сервер почты
     # Доступен по адресу http://localhost:8025
