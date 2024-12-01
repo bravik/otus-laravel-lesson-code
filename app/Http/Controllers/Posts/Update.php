@@ -25,12 +25,12 @@ class Update
 
     public function update(
         UpdatePostRequest $request, // Валидация запроса с помощью Laravel Form Request
-        Handler $useCase, // Сервис с бизнес логикой
+        Handler $updatePostUseCase, // Сервис с бизнес логикой
         int $postId
     ): RedirectResponse {
         $data = $request->validated();
 
-        $useCase(
+        $updatePostUseCase(
             new Command(
                 $postId,
                 $data['title'],

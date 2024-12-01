@@ -11,6 +11,7 @@ use Webmozart\Assert\Assert;
  * Если хотите нормально использовать code-completion IDE, нужно проставить докблоки с типами переменных =(
  * Лучше вообще не использовать эти поля, и обернуть доступ к ним в геттеры
  *
+ * @property int $id
  * @property int $author_id
  * @property string $title
  * @property string $text

@@ -29,4 +29,15 @@ class PostsRepository implements PostsRepositoryInterface
         $post->save();
     }
 
+    /**
+     * @return Post[]
+     */
+    public function fetchByAuthor(int $authorId): array
+    {
+        return Post::query()
+            ->where('author_id', $authorId)
+            ->get()
+            ->all()
+        ;
+    }
 }

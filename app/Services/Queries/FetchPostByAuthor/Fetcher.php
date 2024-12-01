@@ -4,28 +4,33 @@ declare(strict_types=1);
 
 namespace App\Services\Queries\FetchPostByAuthor;
 
-use App\Infrastructure\Eloquent\Repositories\PostsRepository;
+use App\Services\Repositories\PostsRepositoryInterface;
 
 class Fetcher
 {
     public function __construct(
-        private PostsRepository $repository
+        private PostsRepositoryInterface $postsRepository
     ) {
     }
 
     public function __invoke(Query $query): Result
     {
-        $entities = $this->repository->fetchByAuthor();
+        $entities = $this->postsRepository->fetchByAuthor($query->authorId);
+
+        $posts = [];
 
         foreach ($entities as $entity) {
-            $result[] = new Result(
+            $posts[] = new PostDTO(
                 $entity->id,
                 $entity->title,
                 $entity->text,
-                $entity->author
+                new AuthorDTO(
+                    $entity->author->email,
+                    $entity->author->name,
+                )
             );
         }
 
-        return new Result();
+        return new Result($posts);
     }
 }

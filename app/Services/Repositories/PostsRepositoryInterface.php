@@ -18,6 +18,11 @@ use App\Models\Post;
  */
 interface PostsRepositoryInterface
 {
+    /**
+     * @return Post[]
+     */
+    public function fetchByAuthor(int $authorId): array;
+
     public function fetchAll(): array;
 
     public function find(int $id): ?Post;
