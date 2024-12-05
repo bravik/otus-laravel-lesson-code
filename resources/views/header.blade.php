@@ -13,9 +13,13 @@
             </div>
         </div>
         <div class="flex flex-col md:flex-row md:-mx-4">
-            <a class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0" href="#">Home</a>
-            <a class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0" href="#">Blog</a>
-            <a class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0" href="#">About us</a>
+            <a class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0" href="/">Home</a>
+            <a class="my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0" href="/posts">Blog</a>
+
+            @auth
+                <span class="font-bold my-1 text-gray-800 md:mx-4 md:my-0">Hello, {{ Auth::user()->name }}</span>
+                <a href="{{route('logout')}}" class="font-extrabold my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Logout</a>
+            @endauth
         </div>
     </div>
 </nav>

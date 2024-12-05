@@ -73,3 +73,12 @@ Route::group(['prefix' => 'posts'], function () {
 //    })->name('delete');
 //});
 //
+
+Route::get('/login', function () {
+    return new \Illuminate\Http\Response('You should login first', 200);
+})->name('login');
+
+Route::get('/logout', function () {
+    \Illuminate\Support\Facades\Auth::logout();
+    return redirect()->back();
+})->name('logout');
