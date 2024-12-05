@@ -18,7 +18,17 @@ Route::get('/test', function (Request $request, \Illuminate\View\Factory $viewFa
     return $viewFactory->make('test');
 });
 
-Route::group(['prefix' => 'posts'], function () {
+/**
+ * Еще один способ отключить CSRF для группы роутов
+ */
+//Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class])
+//    ->prefix('posts')
+//    ->group(function () {
+
+Route::group([
+    'prefix' => 'posts',
+    'middleware' => ['auth', 'canany:admin,editor'],
+], function () {
     Route::get('/', \App\Http\Controllers\Posts\Index::class)
         ->name('posts.index');
     Route::get('create', [\App\Http\Controllers\Posts\Create::class, 'form'])
@@ -28,11 +38,13 @@ Route::group(['prefix' => 'posts'], function () {
     Route::get('{postId}', \App\Http\Controllers\Posts\Show::class)
         ->name('posts.show');
     Route::get('{post}/edit', [\App\Http\Controllers\Posts\Update::class, 'form'])
-        ->name('posts.edit');
+        ->name('posts.edit')
+    ;
     Route::put('{postId}', [\App\Http\Controllers\Posts\Update::class, 'update'])
         ->name('posts.update');
     Route::delete('{post}', \App\Http\Controllers\Posts\Delete::class)
-        ->name('posts.destroy');
+        ->name('posts.destroy')
+    ;
 });
 
 
