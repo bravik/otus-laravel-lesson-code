@@ -9,8 +9,10 @@ use App\Infrastructure\Notifier\FilteredNotifier\FilteredNotifier;
 use App\Infrastructure\Notifier\FilteredNotifier\FilterInterface;
 use App\Infrastructure\Notifier\QueuedNotifier;
 use App\Jobs\SendNotificationJob;
+use App\Policies\RolesPolicy;
 use App\Services\NotifierInterface;
 use App\Services\Repositories\PostsRepositoryInterface;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -97,6 +99,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
+        // Регистрация нескольких Gate-проверок. Сами проверки в классе RolesPolicy
+        Gate::define(RolesPolicy::ADMIN, [RolesPolicy::class, RolesPolicy::ADMIN]);
+        Gate::define(RolesPolicy::EDITOR, [RolesPolicy::class, RolesPolicy::EDITOR]);
+        Gate::define(RolesPolicy::USER, [RolesPolicy::class, RolesPolicy::USER]);
     }
 }

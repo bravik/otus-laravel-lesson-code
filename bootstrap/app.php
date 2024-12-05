@@ -26,12 +26,54 @@ return Application::configure(basePath: dirname(__DIR__))
             except: [
 //                '/send-money',
                 '/users/*',
-//                '/posts*',
             ]
         );
+        /**
+         * Добавление перед/после предустаановленных глобальных миддлваров Laravel
+         */
         $middleware->prepend([
-//             Авторизует первого пользователя в БД на сайте (чисто для урока)
             \App\Http\Middleware\ForceLogin::class,
+        ]);
+        $middleware->append([
+            \App\Http\Middleware\Copyrighter::class
+        ]);
+
+        // Полностью перепишет глобальные мидллвары
+        $middleware->use([]);
+
+        // Добавление в группу
+        $middleware->prependToGroup('web', [
+//            \App\Http\Middleware\IsBanned::class,
+//            \App\Http\Middleware\Authenticated::class,
+        ]) ;
+
+        /**
+         * Модификация миддлваров группы.
+         * В частности еще один способ избавиться от CSRF для группы роутов (тут для всех роутов классического приложения)
+         */
+        $middleware->removeFromGroup('web', [
+            \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class
+        ]);
+
+        // Создание собственной группы
+        $middleware->group('custom-group', [
+//            \App\Http\Middleware\ForceLogin::class,
+//            \App\Http\Middleware\Authenticated::class,
+        ]);
+
+
+        /**
+         * Задание порядка применения миддлваров.
+         * Не работает для глобальных миддлваров!
+         */
+        $middleware->priority([
+//            \App\Http\Middleware\Authenticated::class,
+//            \App\Http\Middleware\IsBanned::class,
+        ]);
+
+        // Задание псевдонимов
+        $middleware->alias([
+            'canany' => \App\Http\Middleware\AuthorizeCanAnyMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
