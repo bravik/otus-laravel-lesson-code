@@ -19,6 +19,7 @@ class ExampleTest extends TestCase
 //        $user = User::factory()->create();
 //        $this->actingAs($user);
         $response = $this->get('/');
+        $response->assertSee();
 
         $response->assertStatus(200);
     }
