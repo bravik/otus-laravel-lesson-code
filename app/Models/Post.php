@@ -53,6 +53,7 @@ class Post extends Model
         $post->title = $title;
         $post->text = $text;
         $post->author = $author;
+        $post->created_at = new Carbon();
 
         return $post;
     }

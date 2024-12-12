@@ -22,6 +22,7 @@
         </div>
     @endif
 
+    <div class="posts-list">
     @foreach($posts as $post)
             @include('posts.components.post', [
                 'postId' => $post->id,
@@ -32,6 +33,7 @@
                 'post' => $post,
             ])
     @endforeach
+    </div>
 
     <div class="mt-8">
         <ul class="flex">

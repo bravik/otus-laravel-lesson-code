@@ -9,11 +9,14 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "psr/container": "^2.0",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0",
         "spatie/laravel-route-discovery": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23",
+        "laravel/browser-kit-testing": "^7.2",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
