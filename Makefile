@@ -63,3 +63,11 @@ rebuild:
 	${COMPOSE} build --pull --force-rm $(ARGS)
 
 
+
+cs-fixer:
+	php ./vendor/bin/php-cs-fixer --config=.php-cs-fixer.php --path-mode=intersection --using-cache=no --dry-run --diff fix .
+
+cs-fix:
+	php ./vendor/bin/php-cs-fixer --config=.php-cs-fixer.php --path-mode=intersection --using-cache=no --show-progress=dots --verbose fix .
+
+
