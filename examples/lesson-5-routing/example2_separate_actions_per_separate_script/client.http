@@ -1,0 +1,11 @@
+POST http://localhost:8000/action1.php?name=Roman
+Content-Type: application/x-www-form-urlencoded
+Accept-Language: ru
+
+lastName = Naumenko
+
+###
+
+GET http://localhost:8000/action2.php
+Accept-Language: ru
+
