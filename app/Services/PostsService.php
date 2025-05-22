@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Post;
+use App\Repositories\PostsRepository;
 
 class PostsService
 {
+    public function __construct(
+        private PostsRepository $postsRepository,
+    ) {
+    }
+
     public function update(UpdatePostDTO $updatePostDTO): void
     {
-        $post = Post::query()->find($updatePostDTO->id);
+        $post = $this->postsRepository->find($updatePostDTO->id);
 
         if (!$post) {
             throw new PostNotFoundException();

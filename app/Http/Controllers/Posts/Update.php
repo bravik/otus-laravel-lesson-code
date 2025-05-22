@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Posts;
 
 use App\Http\Requests\UpdatePostRequest;
-use App\Models\Post;
 use App\Services\PostNotFoundException;
+use App\Services\PostsRepositoryInterface;
 use App\Services\PostsService;
 use App\Services\UpdatePostDTO;
 use Illuminate\Contracts\View\View;
@@ -13,13 +13,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Update
 {
+    public function __construct(
+        private PostsRepositoryInterface $postsRepository,
+    ) {
+    }
+
     /**
      * - Здесь не передаем модель, а только примитивные данные, которые необходимы для шаблона
      * - Не используем compact()
      */
     public function edit(int $postId): View
     {
-        $post = Post::query()->find($postId);
+        $post = $this->postsRepository->find($postId);
 
         if (!$post) {
             throw new NotFoundHttpException();
