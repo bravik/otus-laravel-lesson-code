@@ -2,51 +2,93 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
-use Illuminate\Http\Response;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController
 {
     /**
-     * Display a listing of the resource.
+     * - Используется глобальная функция-helper view() Laravel
      */
-    public function index(): Response
+    public function index(): View
     {
-        return response('Hello, world!');
+        $posts = Post::all();
+        return view('posts.index', compact('posts'));
+    }
+
+    public function create(): View
+    {
+        return view('posts.edit');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * - Используется валидатор напрямую в контроллере
+     * - Используется DI для внедрения зависимостей
+     * - Явно обрабатываются ошибки валидации
      */
-    public function create()
+    public function store(
+        Request $request,
+        \Illuminate\Contracts\Validation\Factory $validationFactory,
+        \Illuminate\Contracts\Auth\Factory $auth
+    ): RedirectResponse
     {
-        //
+        $validator = $validationFactory->make(request()->all(), [
+            'title' => ['required', 'min:10', 'max: 255'],
+            'text' => ['required', 'min:10'],
+        ]);
+
+        try {
+            $validator->validate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors($validator)
+            ;
+        }
+
+        $post = new Post();
+        $post->title = $request->input('title');
+        $post->text = $request->input('text');
+
+        $post->author_id = $auth->guard()->id();
+
+        $post->save();
+
+        return redirect()
+            ->route('posts.index')
+            ->with('success', 'Пост успешно создан')
+        ;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * - Используется Route Model Binding
+     * - Вместо глобальных функций для рендеринга используется сервис из DI-контейнера
+     * - Модель прокидывается прямо в шаблон (не рекомендуется так делать)
      */
-    public function store(StorePostRequest $request)
+    public function show(Post $post, Factory $viewFactory)
     {
-        //
+        return $viewFactory->make('posts.show', compact('post'));
     }
 
     /**
-     * Display the specified resource.
+     * - Здесь не передаем модель, а только примитивные данные, которые необходимы для шаблона
+     * - Не используем compact()
      */
-    public function show(Post $post)
+    public function edit(Post $post): View
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
+        return view('posts.edit', [
+            'postId'    => $post->id,
+            'title'     => $post->title,
+            'text'      => $post->text,
+            'authorId'  => $post->author_id,
+        ]);
     }
 
     /**
@@ -54,7 +96,13 @@ class PostsController
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $requestData = $request->validated();
+
+        $post->title = $requestData['title'];
+        $post->text = $requestData['text'];
+        $post->save();
+
+        return redirect()->route('posts.show', ['post' => $post]);
     }
 
     /**
