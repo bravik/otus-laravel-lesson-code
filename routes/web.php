@@ -21,9 +21,9 @@ Route::prefix('posts')
             ->name('store');
         Route::get('/{post}', Posts\Show::class)
             ->name('show');
-        Route::get('/{post}/edit', [Posts\Update::class, 'edit'])
+        Route::get('/{postId}/edit', [Posts\Update::class, 'edit'])
             ->name('edit');
-        Route::put('/{post}', [Posts\Update::class, 'update'])
+        Route::put('/{postId}', [Posts\Update::class, 'update'])
             ->name('update');
         Route::delete('/{post}', Posts\Delete::class)
             ->name('destroy');
