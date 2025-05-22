@@ -27,7 +27,7 @@
                 </p>
                 <span class="vdark:text-white font-body text-grey">//</span>
                 <p class="pl-2 font-body font-light text-primary dark:text-white">
-                    <a class="text-blue-500 hover:underline" href="{{ route('posts.edit', ['post' => $post]) }}">Edit</a>
+                    <a class="text-blue-500 hover:underline" href="{{ route('posts.edit', ['postId' => $post]) }}">Edit</a>
                 </p>
             </div>
         </div>
