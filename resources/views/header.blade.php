@@ -18,7 +18,7 @@
 
             @auth
                 <span class="font-bold my-1 text-gray-800 md:mx-4 md:my-0">Hello, {{ Auth::user()->name }}</span>
-                <a href="{{route('logout')}}" class="font-extrabold my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Logout</a>
+                <a href="#" class="font-extrabold my-1 text-gray-800 hover:text-blue-500 md:mx-4 md:my-0">Logout</a>
             @endauth
         </div>
     </div>
