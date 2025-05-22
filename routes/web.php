@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Posts;
 
 /**
  * Маршрут без контроллера сразу возвращает статическую страницу
@@ -9,8 +10,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::resource('posts', \App\Http\Controllers\PostsController::class);
+Route::prefix('posts')
+    ->name('posts.')
+    ->group(function () {
+        Route::get('/', Posts\Index::class)
+            ->name('index');
+        Route::get('/create', [Posts\Create::class, 'create'])
+            ->name('create');
+        Route::post('/', [Posts\Create::class, 'store'])
+            ->name('store');
+        Route::get('/{post}', Posts\Show::class)
+            ->name('show');
+        Route::get('/{post}/edit', [Posts\Update::class, 'edit'])
+            ->name('edit');
+        Route::put('/{post}', [Posts\Update::class, 'update'])
+            ->name('update');
+        Route::delete('/{post}', Posts\Delete::class)
+            ->name('destroy');
+    });
 
 ///**
 // * Пример группировки маршрутов
