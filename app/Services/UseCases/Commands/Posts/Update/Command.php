@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\UseCases\Commands\Posts\Update;
 
-class UpdatePostDTO
+class Command
 {
     public function __construct(
         public int $id,

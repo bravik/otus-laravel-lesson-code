@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Posts;
 
-use App\Services\PostsRepositoryInterface;
+use App\Services\UseCases\Queries\FetchPostsByAuthor\Fetcher;
+use App\Services\UseCases\Queries\FetchPostsByAuthor\Query;
+use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\View\View;
 
 class Index
 {
     public function __construct(
-        private PostsRepositoryInterface $postsRepository,
+        private Fetcher $postsFetcher,
+        private Factory $auth,
     ) {
     }
 
@@ -17,8 +20,14 @@ class Index
      */
     public function __invoke(): View
     {
-        $posts = $this->postsRepository->fetchAll();
+        $posts = $this->postsFetcher->fetch(
+            new Query(
+                $this->auth->guard()->id()
+            )
+        );
 
-        return view('posts.index', compact('posts'));
+        return view('posts.index', [
+            'posts' => $posts->posts,
+        ]);
     }
 }
