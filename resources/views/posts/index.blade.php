@@ -1,10 +1,9 @@
-@php use App\Models\Post; @endphp
 @extends('layout')
 
 @php
-/**
- * @var Post[] $posts
- */
+    /**
+     * @var \App\Services\UseCases\Queries\FetchPostsByAuthor\PostDTO[] $posts
+     */
 @endphp
 
 @section('content')
@@ -15,7 +14,7 @@
         </button>
     </div>
 
-{{--    // TODO DO not use session in templates--}}
+    {{--    // TODO DO not use session in templates--}}
     @if (session()->has('success'))
         <div class="bg-green-200 p-6 rounded-xl border-2 border-green-300">
             {{ session('success') }}
@@ -23,14 +22,13 @@
     @endif
 
     @foreach($posts as $post)
-            @include('posts.components.post', [
-                'postId' => $post->id,
-                'date' => $post->created_at->format('F j, Y'),
-                'title' => $post->title,
-                'body' => $post->text,
-                'author' => $post->author->name,
-                'post' => $post,
-            ])
+        @include('posts.components.post', [
+            'postId' => $post->id,
+            'date' => $post->createdAt->format('F j, Y'),
+            'title' => $post->title,
+            'body' => $post->text,
+            'author' => $post->authorName,
+        ])
     @endforeach
 
     <div class="mt-8">
