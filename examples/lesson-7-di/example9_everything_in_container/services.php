@@ -10,10 +10,13 @@ use Lesson\Session;
 /** @var Container $container */
 
 $container->instance('session_lifetime', 3600);
+
 $container->bind('isPolite', static fn(): bool => $_ENV['IS_POLITE'] === 'true' ? true : false);
+
 $container->singleton('session', function (Container $container) {
     return new Session(cookieLifetime: $container->get('session_lifetime'));
 });
+
 //$container->set('database', new \PDO('mysql:host=localhost:3306;dbname=otus', 'username', 'password'));
 $container->scoped(ActionGreetings::class, function (Container $container) {
     return new ActionGreetings(

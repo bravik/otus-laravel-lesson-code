@@ -2,14 +2,24 @@
 
 declare(strict_types=1);
 
+
+require __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/ActionGreetings.php';
+require_once __DIR__ . '/ActionLastVisitor.php';
+require_once __DIR__ . '/ActionNotFound.php';
+require_once __DIR__ . '/Request.php';
+require_once __DIR__ . '/Response.php';
+require_once __DIR__ . '/Session.php';
+
+
 use Lesson\Request;
+use Lesson\Response;
 use Lesson\ActionGreetings;
 use Lesson\ActionLastVisitor;
 use Lesson\ActionNotFound;
 use Lesson\ServiceNotFoundException;
 use Lesson\Session;
 
-require __DIR__ . '/../../vendor/autoload.php';
 
 class Container
 {
@@ -66,7 +76,7 @@ $container->set('controller.greetings', function (Container $container) {
 $container->set(ActionLastVisitor::class, function (Container $container) {
     return new ActionLastVisitor(
         isPolite: $container->get('isPolite'),
-        sessionLifetime: $container->get('session_lifetime'),
+        session: $container->get('session'),
     );
 });
 

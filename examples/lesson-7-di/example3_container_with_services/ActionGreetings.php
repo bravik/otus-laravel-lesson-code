@@ -3,17 +3,16 @@
 declare(strict_types=1);
 
 namespace Lesson;
+
+use Lesson\Request;
+use Lesson\Response;
+
 class ActionGreetings
 {
-    private Session $session;
-
     public function __construct(
         private bool $isPolite,
-        int $sessionLifetime,
+        private Session $session,
     ) {
-        $this->session = new Session(
-            $sessionLifetime
-        );
     }
 
     function __invoke(Request $request): Response
@@ -37,5 +36,4 @@ class ActionGreetings
             'Content-Type' => 'text/plain; charset=utf-8',
         ]);
     }
-
 }

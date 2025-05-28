@@ -2,33 +2,23 @@
 
 declare(strict_types=1);
 
+require __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/ActionGreetings.php';
+require_once __DIR__ . '/ActionLastVisitor.php';
+require_once __DIR__ . '/ActionNotFound.php';
+require_once __DIR__ . '/Request.php';
+require_once __DIR__ . '/Response.php';
+require_once __DIR__ . '/Config.php';
+require_once __DIR__ . '/Session.php';
+
 use Lesson\Request;
 use Lesson\ActionGreetings;
 use Lesson\ActionLastVisitor;
 use Lesson\ActionNotFound;
 use Lesson\Session;
+use Lesson\Config;
 
-require __DIR__ . '/../../vendor/autoload.php';
-
-class Config
-{
-    /**
-     * @var array<string,mixed>
-     */
-    private array $params;
-
-    public function get(string $key, mixed $default = null): mixed
-    {
-        return $this->params[$key] ?? $default;
-    }
-
-    public function set(string $key, mixed $value): void
-    {
-        $this->params[$key] = $value;
-    }
-}
-
-$config = new Container();
+$config = new Config();
 $config->set('session_lifetime', 3600);
 $config->set('isPolite', $_ENV['IS_POLITE'] === 'true' ? true : false);
 $config->set('session', new Session(cookieLifetime: 3000));

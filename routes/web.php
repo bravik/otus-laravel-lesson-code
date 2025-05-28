@@ -10,6 +10,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/send-notification', \App\Http\Controllers\Notifications\Send::class);
+
 Route::prefix('posts')
     ->name('posts.')
     ->group(function () {
