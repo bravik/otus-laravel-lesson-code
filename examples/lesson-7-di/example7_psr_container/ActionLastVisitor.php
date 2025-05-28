@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Lesson;
 
-class ActionLastVisitor {
-    private Session $session;
+use Lesson\Request;
+use Lesson\Response;
 
+class ActionLastVisitor {
     public function __construct(
         private bool $isPolite,
-        int $sessionLifetime,
+        private Session $session
     ) {
-        $this->session = new Session(
-            $sessionLifetime
-        );
     }
 
     public function __invoke(Request $request): Response
