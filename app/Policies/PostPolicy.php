@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\Post;
+use App\Models\User;
+use App\Services\PostsRepositoryInterface;
+use Illuminate\Contracts\Auth\Authenticatable;
+
+class PostPolicy
+{
+    public function __construct(
+        private PostsRepositoryInterface $postsRepository,
+    ) {
+    }
+
+    /**
+     * Determine whether the user can view any models.
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->getAuthIdentifier() === 1;
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function view(User $user, Post $post): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can create models.
+     */
+    public function create(User $user): bool
+    {
+//        return $user->getAuthIdentifier() === 2;
+        return false;
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function update(Authenticatable $user, int|string|Post $postOrId): bool
+    {
+        if (!($postOrId instanceof Post)) {
+            $post = $this->postsRepository->find($postOrId);
+        } else {
+            $post = $postOrId;
+        }
+
+        return $post && ($user->id === $post->author_id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     */
+    public function delete(User $user, Post $post): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     */
+    public function restore(User $user, Post $post): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function forceDelete(User $user, Post $post): bool
+    {
+        return false;
+    }
+}

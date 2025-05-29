@@ -15,7 +15,9 @@
         </div>
         <div class="flex justify-between items-center mt-4">
             <a class="text-blue-500 hover:underline" href="{{ route('posts.show', ['post' => $postId]) }}">Read more</a>
+{{--            @can('posts.update', $post->id)--}}
             <a class="text-blue-500 hover:underline" href="{{ route('posts.edit', ['postId' => $postId]) }}">Edit</a>
+{{--            @endcan--}}
             <div>
                 <a class="flex items-center" href="#">
                     <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" :src="$image" alt="avatar">

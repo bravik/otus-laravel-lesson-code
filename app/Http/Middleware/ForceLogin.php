@@ -27,7 +27,8 @@ class ForceLogin
 
         if ($user) {
             // Log in the user
-            Auth::login($user);
+            // We now have auth, and do not need it any more
+//            Auth::login($user);
         }
 
         return $next($request);
