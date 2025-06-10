@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\UseCases\Queries\FetchPostsByAuthor;
+namespace App\Services\UseCases\Queries\FetchAll;
 
+use App\Models\Post;
 use App\Services\PostsRepositoryInterface;
+use App\Services\UsersRepositoryInterface;
 
 /**
  * Пагинация не реализована. Чисто для примера доп параметры в запросе
@@ -13,12 +15,23 @@ class Fetcher
 {
     public function __construct(
         private PostsRepositoryInterface $postsRepository,
+        private UsersRepositoryInterface $usersRepository,
     ) {
     }
 
     public function fetch(Query $query): Result
     {
-        $posts = $this->postsRepository->fetchByAuthor($query->authorId);
+        $posts = $this->postsRepository->fetchAll();
+        $userIds = array_map(
+            static fn(Post $post) => $post->author_id,
+            $posts
+        );
+
+        $authors = array_column(
+            $this->usersRepository->findByIds($userIds),
+            null,
+            'id'
+        );
 
         return new Result(
             posts: array_map(
@@ -28,8 +41,8 @@ class Fetcher
                     text: $post->text,
                     createdAt: $post->created_at,
                     updatedAt: $post->updated_at,
-                    authorId: $post->author->id,
-                    authorName: $post->author->name,
+                    authorId: $authors[$post->author_id]->id,
+                    authorName: $authors[$post->author_id]->name,
                 ),
                 $posts
             ),
