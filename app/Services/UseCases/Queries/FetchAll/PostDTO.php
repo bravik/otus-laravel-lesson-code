@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\UseCases\Queries\FetchPostsByAuthor;
+namespace App\Services\UseCases\Queries\FetchAll;
 
 class PostDTO
 {

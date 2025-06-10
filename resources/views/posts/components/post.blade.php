@@ -1,3 +1,8 @@
+@php
+    /**
+     * @var \App\Services\UseCases\Queries\FetchAll\PostDTO $post
+     */
+@endphp
 <div class="mt-6">
     <div class="max-w-4xl px-10 py-6 bg-white rounded-lg shadow-md">
         <div class="flex justify-between items-center">
