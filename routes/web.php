@@ -47,6 +47,7 @@ Route::prefix('posts')
             ->name('show');
         Route::get('/{postId}/edit', [Posts\Update::class, 'edit'])
             ->name('edit')
+            ->middleware('can:editor')
             ->can('posts.update', 'postId')
         ;
         Route::put('/{postId}', [Posts\Update::class, 'update'])

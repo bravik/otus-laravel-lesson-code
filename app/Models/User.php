@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->role;
     }
+
+    public function isBanned(): bool
+    {
+        return random_int(0,1) === 1; // Simulating a random ban status
+    }
 }
