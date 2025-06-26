@@ -84,3 +84,26 @@ Route::prefix('posts')
 //        ->name('destroy');
 //});
 
+Route::get('/send-email', function (
+    \Illuminate\Contracts\Queue\Queue $queue,
+    \Illuminate\Contracts\Bus\Dispatcher $dispatcher,
+) {
+    $job = new \App\Jobs\SendEmail('test@test.com', 'Test Subject', 'Test Body');
+
+    dispatch($job)->onQueue('transactional')
+        ->afterResponse();
+
+//    \App\Jobs\SendEmail::dispatch(
+//        'test@test.com',
+//        'Test Subject',
+//        'Test Body',
+//    );
+//
+//    $queue->push($job);
+//
+//    $dispatcher->dispatch($job);
+
+    return new \Illuminate\Http\Response('Job sent!');
+});
+
+

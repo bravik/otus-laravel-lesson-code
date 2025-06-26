@@ -11,6 +11,8 @@ use App\Infrastructure\Notifier\QueuedNotifier;
 use App\Jobs\SendNotificationJob;
 use App\Policies\PostPolicy;
 use App\Policies\RolesPolicy;
+use App\Services\Mailer\Mailer;
+use App\Services\Mailer\MailerInterface;
 use App\Services\NotifierInterface;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -113,6 +115,8 @@ class AppServiceProvider extends ServiceProvider
 
         // App
         //$this->app->tag(MyCustomFilter::class, 'filters');
+
+        $this->app->bind(MailerInterface::class, Mailer::class);
     }
 
     /**
