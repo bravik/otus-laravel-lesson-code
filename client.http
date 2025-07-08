@@ -1,0 +1,52 @@
+@host=http://localhost
+@token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNzcwMTc0NzQwLCJleHAiOjE3NzAxNzU2NDAsIm5iZiI6MTc3MDE3NDc0MCwianRpIjoiY3E1NmF2aExHMUpOT0pOQSIsInN1YiI6IjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3Iiwicm9sZXMiOlsiZWRpdG9yIl0sIm5hbWUiOiJTZWNvbmQgVXNlciJ9.BLDQMh1yZDcUv2940s_trXysfZUPq2Yf9_xVDWaQ9jA
+
+###
+GET {{host}}/api/v1/posts/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+GET {{host}}/api/v1/posts
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+###
+POST {{host}}/api/v1/posts
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "title": "My first post",
+    "text": "Hello world!"
+}
+
+### JWT Login as USER
+POST {{host}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "test@example.com",
+    "password": "123456"
+}
+
+### JWT Login as EDITOR
+POST {{host}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "test2@example.com",
+    "password": "123456"
+}
+
+### auth/me
+GET {{host}}/api/auth/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json

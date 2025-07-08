@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @property int $id
@@ -12,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $name
  * @property Role $role
  */
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -61,5 +62,18 @@ class User extends Authenticatable
     public function isBanned(): bool
     {
         return random_int(0,1) === 1; // Simulating a random ban status
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->id;
+    }
+
+    public function getJWTCustomClaims(): array
+    {
+        return [
+            'roles' => [$this->getRole()->value],
+            'name' => $this->name,
+        ];
     }
 }
