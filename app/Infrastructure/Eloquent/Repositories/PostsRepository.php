@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Infrastructure\Eloquent\Repositories;
 
 use App\Models\Post;
-use App\Services\PostsRepositoryInterface;
+use App\Services\Repositories\PostsRepositoryInterface;
 
 class PostsRepository implements PostsRepositoryInterface
 {

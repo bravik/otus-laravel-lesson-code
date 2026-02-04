@@ -27,7 +27,7 @@
             'date' => $post->createdAt->format('F j, Y'),
             'title' => $post->title,
             'body' => $post->text,
-            'author' => $post->authorName,
+            'author' => $post->authorName
         ])
     @endforeach
 

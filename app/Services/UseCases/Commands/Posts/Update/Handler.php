@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\UseCases\Commands\Posts\Update;
 
+
 use App\Services\NotifierInterface;
-use App\Services\PostsRepositoryInterface;
+use App\Services\Repositories\PostsRepositoryInterface;
 
 class Handler
 {
@@ -15,18 +16,21 @@ class Handler
     ) {
     }
 
-    public function handle(Command $command): void
+    public function handle(Command $command): Result
     {
-        $post = $this->postsRepository->find($command->id);
+        $post = $this->postsRepository->find($command->postId);
 
-        if (!$post) {
-            throw new PostNotFoundException();
+        if ($post === null) {
+            throw new ModelNotfoundException('Post not found');
         }
 
         $post->title = $command->title;
         $post->text = $command->text;
-        $post->save();
 
-        $this->notifier->send("Post updated : $post->text", $post->author_id);
+        $this->postsRepository->save($post);
+
+        $this->notifier->send('post updated', $post->author_id);
+
+        return new Result($post->id);
     }
 }

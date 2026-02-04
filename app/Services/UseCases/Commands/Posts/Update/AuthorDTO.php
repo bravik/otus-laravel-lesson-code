@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\UseCases\Commands\Posts\Update;
 
-use App\Models\User;
-
-final readonly class Command
+final readonly class AuthorDTO
 {
     public function __construct(
-        public int $postId,
-        public string $title,
-        public string $text
+        public string $email,
+        public string $name,
     ) {
     }
 }
