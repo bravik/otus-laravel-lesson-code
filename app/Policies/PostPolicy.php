@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\Post;
 use App\Models\User;
-use App\Services\PostsRepositoryInterface;
+use App\Services\Repositories\PostsRepositoryInterface;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class PostPolicy

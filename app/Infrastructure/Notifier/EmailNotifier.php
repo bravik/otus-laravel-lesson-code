@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Notifier;
 
 use App\Services\NotifierInterface;
-use App\Services\UsersRepositoryInterface;
+use App\Services\Repositories\UsersRepositoryInterface;
 use Illuminate\Support\Facades\Mail;
 use Webmozart\Assert\Assert;
 

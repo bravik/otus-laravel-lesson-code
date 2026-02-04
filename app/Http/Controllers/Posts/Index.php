@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Posts;
 
+use App\Services\UseCases\Queries\FetchPostsByAuthor\Query;
 use Illuminate\Auth\AuthManager;
-use App\Services\UseCases\Queries\FetchAll\Fetcher;
-use App\Services\UseCases\Queries\FetchAll\Query;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class Index
 {
     public function __construct(
-        private Fetcher $postsFetcher,
+        private \App\Services\UseCases\Queries\FetchPostsByAuthor\Fetcher $postsFetcher,
     ) {
     }
 
@@ -20,12 +19,12 @@ class Index
      */
     public function __invoke(AuthManager $auth): View|RedirectResponse
     {
-//        if (!$auth->check()) {
-//            return redirect()->route('login');
-//        }
+        if (!$auth->check()) {
+            return redirect()->route('login');
+        }
 
         $posts = $this->postsFetcher->fetch(
-            new Query()
+            new Query(auth()->id())
         );
 
         return view('posts.index', [

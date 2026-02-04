@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\UseCases\Queries\FetchPostsByAuthor;
 
-use App\Services\PostsRepositoryInterface;
+use App\Services\Repositories\PostsRepositoryInterface;
 
 /**
  * Пагинация не реализована. Чисто для примера доп параметры в запросе

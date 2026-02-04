@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Http\Controllers\Notifications\Send;
+use App\Infrastructure\Eloquent\Repositories\PostsRepository;
+use App\Infrastructure\Eloquent\Repositories\UsersRepository;
 use App\Infrastructure\Notifier\EmailNotifier;
 use App\Infrastructure\Notifier\FilteredNotifier\FilteredNotifier;
 use App\Infrastructure\Notifier\FilteredNotifier\Filters\BannedFilter;
@@ -14,6 +16,8 @@ use App\Policies\RolesPolicy;
 use App\Services\Mailer\Mailer;
 use App\Services\Mailer\MailerInterface;
 use App\Services\NotifierInterface;
+use App\Services\Repositories\PostsRepositoryInterface;
+use App\Services\Repositories\UsersRepositoryInterface;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,12 +37,12 @@ class AppServiceProvider extends ServiceProvider
          * поэтому мы просто привязываем к нему интерфейс.
          */
         $this->app->bind(
-            \App\Services\PostsRepositoryInterface::class,
-            \App\Repositories\PostsRepository::class,
+            PostsRepositoryInterface::class,
+            PostsRepository::class,
         );
         $this->app->bind(
-            \App\Services\UsersRepositoryInterface::class,
-            \App\Repositories\UsersRepository::class,
+            UsersRepositoryInterface::class,
+            UsersRepository::class,
         );
 
         /**
