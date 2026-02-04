@@ -24,6 +24,31 @@ services:
         depends_on:
             - mysql
 
+    scheduler:
+        build:
+            context: './8.3'
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: 'otus-laravel-sail'
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+        command: 'scheduler.sh'
+        volumes:
+            - '..:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - mysql
+
     # Laravel queue worker for transactional queue
     jobs_consumer:
         profiles:

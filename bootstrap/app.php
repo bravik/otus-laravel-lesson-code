@@ -76,6 +76,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'canany' => \App\Http\Middleware\AuthorizeCanAnyMiddleware::class
         ]);
     })
+    ->withSchedule(function (Illuminate\Console\Scheduling\Schedule $schedule) {
+        $schedule->command(\App\Console\Commands\ScheduledCommand::class)
+            ->everySecond()
+        ;
+    })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })
