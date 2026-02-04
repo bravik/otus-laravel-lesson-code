@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services\UseCases\Queries\FetchAll;
 
 use App\Models\Post;
-use App\Services\PostsRepositoryInterface;
-use App\Services\UsersRepositoryInterface;
+use App\Services\Repositories\PostsRepositoryInterface;
+use App\Services\Repositories\UsersRepositoryInterface;
 
 /**
  * Пагинация не реализована. Чисто для примера доп параметры в запросе

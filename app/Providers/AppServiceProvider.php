@@ -11,6 +11,7 @@ use App\Infrastructure\Notifier\FilteredNotifier\Filters\BannedFilter;
 use App\Infrastructure\Notifier\FilteredNotifier\Filters\SpamFilter;
 use App\Infrastructure\Notifier\QueuedNotifier;
 use App\Jobs\SendNotificationJob;
+use App\Models\User;
 use App\Policies\PostPolicy;
 use App\Policies\RolesPolicy;
 use App\Services\Mailer\Mailer;
@@ -18,6 +19,8 @@ use App\Services\Mailer\MailerInterface;
 use App\Services\NotifierInterface;
 use App\Services\Repositories\PostsRepositoryInterface;
 use App\Services\Repositories\UsersRepositoryInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -145,5 +148,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define(RolesPolicy::ADMIN, [RolesPolicy::class, RolesPolicy::ADMIN]);
         Gate::define(RolesPolicy::EDITOR, [RolesPolicy::class, RolesPolicy::EDITOR]);
         Gate::define(RolesPolicy::USER, [RolesPolicy::class, RolesPolicy::USER]);
+
+        Auth::viaRequest('custom-token', function (Request $request) {
+            return User::where('api_token', $request->bearerToken())->first();
+        });
     }
 }
