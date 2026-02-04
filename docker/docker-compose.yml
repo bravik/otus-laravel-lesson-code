@@ -23,6 +23,30 @@ services:
             - sail
         depends_on:
             - mysql
+
+    # Laravel queue worker for transactional queue
+    jobs_consumer:
+        profiles:
+            -   queues
+        build:
+            context: './8.3'
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: 'otus-laravel-sail'
+        restart: unless-stopped
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+        command: [ 'php', '/var/www/html/artisan', 'queue:work', 'database', '--queue=transactional' ]
+        volumes:
+            - '..:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - mysql
+            - laravel
+
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -70,6 +94,8 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+
+
 networks:
     sail:
         driver: bridge
