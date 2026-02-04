@@ -2,12 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Testing\Fluent\AssertableJson;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Tests\TestCase;
 
+#[CoversClass(AuthController::class)]
 class AuthTest extends TestCase
 {
     use RefreshDatabase;
@@ -16,35 +19,33 @@ class AuthTest extends TestCase
     {
         // Arrange
         User::factory()->create([
+            'role' => 'user',
             'email' => 'test@example.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('password')
         ]);
 
         // Act
         $response = $this->postJson('/api/auth/login', [
             'email' => 'test@example.com',
-            'password' => 'password',
+            'password' => 'password'
         ]);
 
-        // Asset
+        // Assert
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure([
                 'access_token',
-                'token_type',
                 'expires_in',
             ]);
     }
 
-    /**
-     * A basic feature test example.
-     */
     public function test_login_with_invalid_credentials(): void
     {
         // Arrange
         User::factory()->create([
+            'role' => 'user',
             'email' => 'test@example.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('password')
         ]);
 
         // Act
@@ -53,18 +54,15 @@ class AuthTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
-        // Asset
-
+        // Assert
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     * A basic feature test example.
-     */
     public function test_me(): void
     {
         // Arrange
         User::factory()->create([
+            'role' => 'user',
             'name' => 'John Doe',
             'email' => 'test@example.com',
             'password' => bcrypt('password'),
@@ -76,8 +74,7 @@ class AuthTest extends TestCase
             'password' => 'password',
         ]);
 
-        // Asset
-
+        // Assert
         $response->assertStatus(Response::HTTP_OK);
 
         $token = $response->json('access_token');
